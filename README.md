@@ -1,4 +1,4 @@
-# Xi::Superdirt
+# Xi::SuperDirt
 
 SuperDirt support for Xi
 
