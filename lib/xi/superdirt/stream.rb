@@ -104,7 +104,7 @@ module Xi::Superdirt
 
     def n_set(id, at: Time.now, **args)
       #debug "n_set: args #{args}"
-      #send_bundle("/n_set", id, *osc_args(args), at: at)
+      send_bundle("/play2", "s", *osc_args(args), at: at)
     end
 
     def s_new(name, id, add_action: 0, target_id: 1, at: Time.now, **args)
