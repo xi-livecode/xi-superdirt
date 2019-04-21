@@ -103,13 +103,13 @@ module Xi::Superdirt
     end
 
     def n_set(id, at: Time.now, **args)
-      debug "n_set: id #{id}"
-      send_bundle("/n_set", id, *osc_args(args), at: at)
+      #debug "n_set: args #{args}"
+      #send_bundle("/n_set", id, *osc_args(args), at: at)
     end
 
     def s_new(name, id, add_action: 0, target_id: 1, at: Time.now, **args)
-      debug "s_new: name #{name}"
-      send_bundle("/play2", name.to_s, id.to_i, add_action.to_i,
+      debug "s_new: args #{args}"
+      send_bundle("/play2", "s", name.to_s, id.to_i, add_action.to_i,
                   target_id.to_i, *osc_args(args), at: at)
     end
 
