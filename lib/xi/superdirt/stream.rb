@@ -6,6 +6,10 @@ module Xi::Superdirt
   class Stream < Xi::Stream
     include Xi::OSC
 
+    DEFAULT_PARAMS = {
+      speed: 1
+    }
+
     def initialize(name, clock, server: "localhost", port: 57120, base_node_id: 2000, **opts)
       debug "Xi::Superdirt initialized"
       super
@@ -20,15 +24,14 @@ module Xi::Superdirt
     def transform_state
       super
 
+      @state = DEFAULT_PARAMS.merge(@state)
+
       if changed_param?(:db) && !changed_param?(:amp)
         @state[:amp] = @state[:db].db_to_amp
         @changed_params << :amp
       end
 
-      if changed_param?(:midinote) && !changed_param?(:freq)
-        @state[:freq] = Array(@state[:midinote]).map(&:midi_to_cps)
-        @changed_params << :freq
-      end
+      @state[:freq] = 440 * @state[:speed]
 
       @state[:s] ||= @name.to_s
     end
