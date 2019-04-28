@@ -58,7 +58,7 @@ module Xi::Superdirt
       send_bundle("/play2",
                   "cps", @clock.cps.to_f,
                   "cycle", @clock.current_cycle.to_f,
-                  "delta", 0.22,
+                  "delta", 0,
                   *osc_args(args), at: at)
     end
 
