@@ -25,10 +25,6 @@ module Xi::Superdirt
       super
     end
 
-    def set(params)
-      super(gate: params[:gate] || :s, **params)
-    end
-
     private
 
     def transform_state
