@@ -11,6 +11,15 @@ module Xi::Superdirt
       speed: 1
     }
 
+    PARAMETER_SYNONYMS = {
+      bpf: :bandf,
+      bpq: :bandq,
+      hpf: :hcutoff,
+      hpq: :hresonance,
+      lpf: :cutoff,
+      lpq: :resonance,
+    }
+
     def initialize(name, clock, server: "localhost", port: 57120, base_node_id: 2000, **opts)
       debug "Xi::Superdirt initialized"
       super
@@ -26,6 +35,7 @@ module Xi::Superdirt
       super
 
       @state = DEFAULT_PARAMS.merge(@state)
+      @state = rename_parameters(@state)
 
       if changed_param?(:db) && !changed_param?(:amp)
         @state[:amp] = @state[:db].db_to_amp
@@ -63,6 +73,10 @@ module Xi::Superdirt
           send_play2(name, **state_params, freq: freq_i, at: at)
         end
       end
+    end
+
+    def rename_parameters(state)
+      state.map { |k, v| [PARAMETER_SYNONYMS[k] || k, v] }.to_h
     end
 
     def send_play2(name, at: Time.now, **args)
