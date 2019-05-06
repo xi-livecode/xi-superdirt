@@ -7,6 +7,7 @@ module Xi::Superdirt
     include Xi::OSC
 
     DEFAULT_PARAMS = {
+      freq: 440,
       speed: 1
     }
 
@@ -31,7 +32,15 @@ module Xi::Superdirt
         @changed_params << :amp
       end
 
-      @state[:freq] = 440 * @state[:speed]
+      if changed_param?(:speed) && !changed_param?(:freq)
+        @state[:freq] = 440 * @state[:speed]
+        @changed_params << :freq
+      end
+
+      if changed_param?(:midinote) && !changed_param?(:freq)
+        @state[:freq] = Array(@state[:midinote]).map(&:midi_to_cps)
+        @changed_params << :freq
+      end
 
       @state[:s] ||= @name.to_s
     end
